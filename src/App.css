@@ -2,17 +2,6 @@
     text-align: center;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
 .App-header {
     background-color: #282c34;
     min-height: 13 vh;
@@ -27,15 +16,6 @@
 
 .App-link {
     color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
 }
 
 .NavButtons {
@@ -53,6 +33,11 @@ a.selected {
     text-decoration: underline;
 }
 
+img {
+    width: 100%;
+    height: auto;
+}
+
 .logout {
     padding: 0.5rem 1rem;
     border: solid 1px;
@@ -61,3 +46,32 @@ a.selected {
     right: 5%;
     position: absolute;
 }
+
+.hikeList {
+    background-color: antiquewhite;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.hikeCardAdmin {
+    border: 1px solid black;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 60%;
+    justify-content: space-evenly;
+}
+.hikeCardAdmin img {
+    max-width: 25%;
+}
+
+@media screen and (max-width: 1024px) {
+    .hikeCardAdmin {
+        width: 100%;
+        flex-direction: column;
+    }
+}
+

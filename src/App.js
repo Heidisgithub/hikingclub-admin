@@ -6,8 +6,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div class="logout">Log out</div>
-        <nav class="NavButtons">
+        <div className="logout">Log out</div>
+        <nav className="NavButtons">
           <NavLink
           to="/hikes"
           activeClassName="selected"
