@@ -11,7 +11,7 @@ function HikeList() {
     const getData = async () => {
         let jsonResponse = { error: "unknown" };
         let url;
-        process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL : url = process.env.REACT_APP_LIVE_DB_URL
+        process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL_HIKES : url = 'https://wbshikingclub.herokuapp.com/api/hikes'
         try {
           const response = await fetch(url, { cache: 'no-cache' })
           if (response.ok) {
