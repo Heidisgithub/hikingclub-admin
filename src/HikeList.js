@@ -10,7 +10,8 @@ function HikeList() {
 
     const getData = async () => {
         let jsonResponse = { error: "unknown" };
-        let url = `http://localhost:5000/api/hikes/`
+        let url;
+        process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL : url = process.env.REACT_APP_LIVE_DB_URL
         try {
           const response = await fetch(url, { cache: 'no-cache' })
           if (response.ok) {
