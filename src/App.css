@@ -48,7 +48,6 @@ img {
 }
 
 .hikeList {
-    background-color: antiquewhite;
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
@@ -64,8 +63,9 @@ img {
     width: 60%;
     justify-content: space-evenly;
 }
-.hikeCardAdmin img {
-    max-width: 25%;
+
+.hikeCardAdmin > * {
+    width: 25%;
 }
 
 @media screen and (max-width: 1024px) {
@@ -73,5 +73,46 @@ img {
         width: 100%;
         flex-direction: column;
     }
+    .hikeCardAdmin > * {
+        width: 100%;
+    }
+    .hikeCardAdmin img {
+        width: 60%;
+    }
 }
+
+.hikeCardAdmin:hover {
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background-color: antiquewhite;
+    transition: 0.5s;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .modal-main {
+    position:fixed;
+    background: white;
+    width: 80%;
+    height: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  .display-block {
+    display: block;
+  }
+  
+  .display-none {
+    display: none;
+  }
 
