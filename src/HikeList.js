@@ -5,14 +5,7 @@ import Modal from "./Modal";
 function HikeList() {
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
-    const [selectedHike, setSelectedHike] = useState({
-        date: null,
-        description: null,
-        imageUrl: null,
-        location: null,
-        title: null,
-        uuid: null
-    });
+    const [selectedHike, setSelectedHike] = useState({});
 
     useEffect(
         () => getData(), []
@@ -50,14 +43,7 @@ function HikeList() {
     const selectHike = (hikeId) => {
         showModal()
         const foundHike = findSelectedHike(hikeId)
-        setSelectedHike({
-            date: foundHike.date,
-            description: foundHike.description,
-            imageUrl: foundHike.imageUrl,
-            location: foundHike.location,
-            title: foundHike.title,
-            uuid: foundHike.uuid
-        })
+        setSelectedHike(foundHike)
     }
 
     return (
