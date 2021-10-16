@@ -8,12 +8,14 @@ function Modal(props) {
     const handleKey = e => {
         if (e.code === 'Escape') {
             props.handleClose()
+            props.closeEditing()
         }
     }
 
     const handleClick = e => {
         if (!domNode.current.contains(e.target)) {
             props.handleClose()
+            props.closeEditing()
         }
     }
 

@@ -3,11 +3,22 @@ import { NavLink } from "react-router-dom";
 import EntityList from "./EntityList"
 
 function App() {
+  const envUrl = () => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log(process.env)
+      return process.env.REACT_APP_DEV_URL_HOMEPAGE
+    } else {
+      return 'https://wbshikingclub.herokuapp.com/'
+    }
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <div className="logout">Log out</div>
+        
         <nav className="NavButtons">
+          <div className="logout">
+            <a href={envUrl()}>Log out</a>
+          </div>
           <NavLink
           to="/hikes"
           activeClassName="selected"

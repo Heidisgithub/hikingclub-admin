@@ -1,20 +1,48 @@
 import React, {useState, useEffect} from "react";
 import HikeCardAdmin from "./HikeCardAdmin";
 import Modal from "./Modal";
+import EditField from "./EditField";
 
 function HikeList() {
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
     const [selectedHike, setSelectedHike] = useState({});
+    const [isEditing, setEditing] = useState(false);
+    const [editHike, setEditHike] = useState({
+        title: '',
+        imageUrl: '',
+        date: '',
+        description: '',
+        location: ''
+    });
 
     useEffect(
         () => getData(), []
     )
 
+    useEffect(
+        () => {
+            if (selectedHike.uuid) {
+                const foundHike = findSelectedHike(selectedHike.uuid)
+                setSelectedHike(foundHike)
+            } else {
+                return
+            }
+        }, [hikeData]
+    )
+
+    const envUrl = () => {
+        if (process.env.NODE_ENV === 'development') {
+            return process.env.REACT_APP_DEV_DB_URL_HIKES
+        } else {
+            return 'https://wbshikingclub.herokuapp.com/api/hikes'
+        }
+    }
+
     const getData = async () => {
         let jsonResponse = { error: "unknown" };
-        let url;
-        process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL_HIKES : url = 'https://wbshikingclub.herokuapp.com/api/hikes'
+        const url = envUrl();
+        // process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL_HIKES : url = 'https://wbshikingclub.herokuapp.com/api/hikes'
         try {
           const response = await fetch(url, { cache: 'no-cache' })
           if (response.ok) {
@@ -46,6 +74,38 @@ function HikeList() {
         setSelectedHike(foundHike)
     }
 
+    const convertDate = (date) => {
+        return (new Date(date)).toLocaleDateString('fr-ca')
+    }
+
+    const closeEditing = () => {
+        setEditHike({
+            title: '',
+            imageUrl: '',
+            date: '',
+            description: '',
+            location: ''
+        })
+        setEditing(false)
+    }
+
+    const sendPatchUpdate = async (updateBody, hikeId) => {
+        const baseUrl = envUrl();
+        const url = `${baseUrl}/${hikeId}`
+        const myInit = {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(updateBody)
+          };
+        const response = await fetch(url, myInit)
+    }
+
+    const updateEdit = async (hikeId) => {
+        await sendPatchUpdate(editHike, hikeId)
+        closeEditing()
+        getData()
+    }
+
     return (
         <div className="hikeList">
             {
@@ -61,13 +121,91 @@ function HikeList() {
                     )
                 })
             }
-            <Modal show={modalVisibility} handleClose={closeModal}>
-                <h2>{selectedHike.title}</h2>
-                <p>{selectedHike.uuid}</p>
-                <img src={selectedHike.imageUrl} alt=""></img>
-                <p>{selectedHike.date}</p>
-                <p>{selectedHike.description}</p>
-                <p>{selectedHike.location}</p>
+            <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
+                <img src={selectedHike.imageUrl} alt="hike"></img>
+                <p>Hike UUID: {selectedHike.uuid}</p>
+                {
+                    isEditing ? (
+                        <>
+                        <button onClick={()=>closeEditing()}>Cancel</button>
+                        <button onClick={()=>updateEdit(selectedHike.uuid)}>Update</button>
+                        </>
+                    ) : (
+                        <button onClick={()=>{
+                            setEditHike(selectedHike)
+                            setEditing(true)
+                        }}>Edit Hike Info</button>
+                    )
+                }
+                
+                <div className="editSection">
+                    <span>Hike Title: </span>
+                    <EditField 
+                        isEditing={isEditing}
+                        title={selectedHike.title}>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.title} 
+                            value={editHike.title}
+                            onChange={e => {
+                                setEditHike({...editHike, title: e.target.value})
+                                }}
+                            />
+                    </EditField>
+                </div>
+                <div>
+                    <span>Hike Image URL: </span>
+                    <EditField
+                        isEditing={isEditing} 
+                        title={selectedHike.imageUrl}>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.imageUrl}  
+                            value={editHike.imageUrl}
+                            onChange={e => setEditHike({...editHike, imageUrl: e.target.value})}
+                            />
+                    </EditField>
+                </div>
+                <div>
+                    <span>Hike Date: </span>
+                    <EditField 
+                        isEditing={isEditing}
+                        title={convertDate(selectedHike.date)}
+                            >
+                        <input 
+                            type="date"
+                            placeholder={convertDate(selectedHike.date)}
+                            value={convertDate(editHike.date)}
+                            onChange={e => setEditHike({...editHike, date: e.target.value})}
+                            />
+                    </EditField>
+                </div>
+                <div>
+                    <span>Hike Description: </span>
+                    <EditField 
+                        isEditing={isEditing}
+                        title={selectedHike.description}>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.description}  
+                            value={editHike.description}
+                            onChange={e => setEditHike({...editHike, description: e.target.value})}
+                            />
+                    </EditField>
+                </div>
+                <div>
+                    <span>Hike Location: </span>
+                    <EditField 
+                        isEditing={isEditing}
+                        title={selectedHike.location}>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.location}  
+                            value={editHike.location}
+                            onChange={e => setEditHike({...editHike, location: e.target.value})}
+                            />
+                    </EditField>
+                </div>
             </Modal>
         </div>
     )
