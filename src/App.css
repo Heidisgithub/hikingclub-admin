@@ -102,10 +102,16 @@ img {
     position:fixed;
     background: white;
     width: 80%;
-    height: auto;
+    max-height: 80%;
     top:50%;
     left:50%;
     transform: translate(-50%,-50%);
+    overflow: scroll;
+  }
+
+  .modal-main img {
+      max-width: 80%;
+      max-height: auto;
   }
   
   .display-block {
