@@ -5,7 +5,6 @@ import EntityList from "./EntityList"
 function App() {
   const envUrl = () => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(process.env)
       return process.env.REACT_APP_DEV_URL_HOMEPAGE
     } else {
       return 'https://wbshikingclub.herokuapp.com/'

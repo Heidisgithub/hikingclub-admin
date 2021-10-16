@@ -42,12 +42,19 @@ function HikeList() {
     const getData = async () => {
         let jsonResponse = { error: "unknown" };
         const url = envUrl();
-        // process.env.NODE_ENV === 'development' ? url = process.env.REACT_APP_DEV_DB_URL_HIKES : url = 'https://wbshikingclub.herokuapp.com/api/hikes'
         try {
           const response = await fetch(url, { cache: 'no-cache' })
           if (response.ok) {
             jsonResponse = await response.json()
-            setHikeData(jsonResponse)
+            const newHikes = jsonResponse.map(hike => ({
+                title: hike.title || '',
+                description: hike.description || '',
+                location: hike.location || '',
+                uuid: hike.uuid,
+                imageUrl: hike.imageUrl || 'https://via.placeholder.com/150',
+                date: hike.date || new Date().toLocaleDateString('fr-ca')
+            }))
+            setHikeData(newHikes)
           }
         } catch (error) {
           console.log(error);
@@ -97,7 +104,7 @@ function HikeList() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(updateBody)
           };
-        const response = await fetch(url, myInit)
+        await fetch(url, myInit)
     }
 
     const updateEdit = async (hikeId) => {
@@ -106,22 +113,27 @@ function HikeList() {
         getData()
     }
 
-    return (
-        <div className="hikeList">
-            {
-                hikeData.map(hike => {
-                    return (
-                        <div key={hike.uuid} onClick={()=>selectHike(hike.uuid)}>
-                            <HikeCardAdmin 
-                                title={hike.title}
-                                uuid={hike.uuid}
-                                imageUrl={hike.imageUrl}
-                            />
-                        </div>
-                    )
-                })
-            }
-            <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
+    const sendDeleteUpdate = async (hikeId) => {
+        const baseUrl = envUrl();
+        const url = `${baseUrl}/${hikeId}`
+        const myInit = {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+          };
+        closeModal()
+        await fetch(url, myInit)
+        await getData()
+    }
+
+    const deleteHike = async (hikeId) => {
+        await sendDeleteUpdate(hikeId)
+        closeEditing()
+    }
+
+    let modalWindow = <div></div>
+    if (selectedHike) {
+    modalWindow = (
+        <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
                 <img src={selectedHike.imageUrl} alt="hike"></img>
                 <p>Hike UUID: {selectedHike.uuid}</p>
                 {
@@ -137,7 +149,7 @@ function HikeList() {
                         }}>Edit Hike Info</button>
                     )
                 }
-                
+                <button onClick={()=>deleteHike(selectedHike.uuid)}>!!! DELETE HIKE !!!</button>
                 <div className="editSection">
                     <span>Hike Title: </span>
                     <EditField 
@@ -206,7 +218,25 @@ function HikeList() {
                             />
                     </EditField>
                 </div>
-            </Modal>
+            </Modal>)
+    }
+
+    return (
+        <div className="hikeList">
+            {
+                hikeData.map(hike => {
+                    return (
+                        <div key={hike.uuid} onClick={()=>selectHike(hike.uuid)}>
+                            <HikeCardAdmin 
+                                title={hike.title}
+                                uuid={hike.uuid}
+                                imageUrl={hike.imageUrl}
+                            />
+                        </div>
+                    )
+                })
+            }
+            {modalWindow}
         </div>
     )
 }
