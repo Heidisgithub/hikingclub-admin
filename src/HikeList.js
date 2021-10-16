@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import HikeCardAdmin from "./HikeCardAdmin";
 import Modal from "./Modal";
 import EditField from "./EditField";
+import CreationModal from "./CreationModal";
 
 function HikeList() {
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
+    const [creationModalVisibility, setCreationModalVisibility] = useState(false)
     const [selectedHike, setSelectedHike] = useState({});
     const [isEditing, setEditing] = useState(false);
     const [editHike, setEditHike] = useState({
@@ -61,7 +63,8 @@ function HikeList() {
     }
 
     const closeModal = () => {
-        setModalVisibility(false)
+        setModalVisibility(false);
+        setCreationModalVisibility(false);
     }
 
     const findSelectedHike = (hikeId) => {
@@ -106,8 +109,34 @@ function HikeList() {
         getData()
     }
 
+    const toggleCreationModalVisibility = ()=>{
+        if(!creationModalVisibility){
+        setCreationModalVisibility(true)
+        return;
+    }
+    setCreationModalVisibility(false)
+    return;
+    }
+
+    const closeCreation = () =>{
+        setCreationModalVisibility(false);
+    }
+
+    const createHike = async (newHike) => {
+        const url = envUrl();
+    
+        const postingHike = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newHike)
+          };
+          const response = await fetch(url, postingHike)
+    }
+
     return (
         <div className="hikeList">
+            <button class="createButton" onClick={toggleCreationModalVisibility}>Create a new hike</button>
+           
             {
                 hikeData.map(hike => {
                     return (
@@ -121,6 +150,58 @@ function HikeList() {
                     )
                 })
             }
+            <Modal create={createHike} show={creationModalVisibility} closeCreation={closeCreation} handleClose={closeModal} >
+          {/* make fields clickable and implement the post function to create a hike */}
+                
+            <div className="editSection">
+                    <span>Hike Title: </span>
+                         <input 
+                            type="text"
+                            placeholder={selectedHike.title} 
+                            value={editHike.title}
+                            onChange={e => {
+                                setEditHike({...editHike, title: e.target.value})
+                                }}
+                            />
+                </div>
+                <div>
+                    <span>Hike Image URL: </span>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.imageUrl}  
+                            value={editHike.imageUrl}
+                            onChange={e => setEditHike({...editHike, imageUrl: e.target.value})}
+                            />
+                </div>
+                <div>
+                    <span>Hike Date: </span>
+                        <input 
+                            type="date"
+                            placeholder={convertDate(selectedHike.date)}
+                            value={convertDate(editHike.date)}
+                            onChange={e => setEditHike({...editHike, date: e.target.value})}
+                            />
+                </div>
+                <div>
+                    <span>Hike Description: </span>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.description}  
+                            value={editHike.description}
+                            onChange={e => setEditHike({...editHike, description: e.target.value})}
+                            />
+                </div>
+                <div>
+                    <span>Hike Location: </span>
+                        <input 
+                            type="text"
+                            placeholder={selectedHike.location}  
+                            value={editHike.location}
+                            onChange={e => setEditHike({...editHike, location: e.target.value})}
+                            />
+                </div>
+                </ Modal>
+
             <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
                 <img src={selectedHike.imageUrl} alt="hike"></img>
                 <p>Hike UUID: {selectedHike.uuid}</p>
