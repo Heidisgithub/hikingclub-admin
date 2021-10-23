@@ -165,7 +165,7 @@ const sendCreate = async () =>{
 }
 
     let modalWindow = <div></div>
-    if (selectedHike) {
+    if (modalVisibility) {
     modalWindow = (
         <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
                 <img src={selectedHike.imageUrl} alt="hike"></img>
@@ -253,28 +253,9 @@ const sendCreate = async () =>{
                     </EditField>
                 </div>
             </Modal>)
-    }
-
-    return (
-        <div className="hikeList">
-            <button className="createButton" onClick={toggleCreationModalVisibility}>Create a new hike</button>
-            {
-                hikeData.map(hike => {
-                    return (
-                        <div key={hike.uuid} onClick={()=>selectHike(hike.uuid)}>
-                            <HikeCardAdmin 
-                                title={hike.title}
-                                uuid={hike.uuid}
-                                imageUrl={hike.imageUrl}
-                            />
-                        </div>
-                    )
-                })
-            }
-            {modalWindow}
-           
-           <Modal create={createHike} show={creationModalVisibility} closeEditing={closeEditing} handleClose={closeModal} >
-         {/* make fields clickable and implement the post function to create a hike */}
+    } else if(creationModalVisibility) {
+        modalWindow = (
+            <Modal create={createHike} show={creationModalVisibility} closeEditing={closeEditing} handleClose={closeModal} >
                
            <div className="editSection">
                    <span>Hike Title: </span>
@@ -327,6 +308,30 @@ const sendCreate = async () =>{
                            setEditing(true)
                            sendCreate() }}>Create</button>
                </ Modal>
+        )
+        console.log("modalWindow")
+        console.log(modalWindow)
+    }
+
+    return (
+        <div className="hikeList">
+            <button className="createButton" onClick={() => {setCreationModalVisibility(true)}}>Create a new hike</button>
+            {
+                hikeData.map(hike => {
+                    return (
+                        <div key={hike.uuid} onClick={()=>setModalVisibility(true)}>
+                            <HikeCardAdmin 
+                                title={hike.title}
+                                uuid={hike.uuid}
+                                imageUrl={hike.imageUrl}
+                            />
+                        </div>
+                    )
+                })
+            }
+            {modalWindow}
+           
+           
 
         </div>
     )

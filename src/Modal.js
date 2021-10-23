@@ -19,16 +19,16 @@ function Modal(props) {
         }
     }
 
-    // useEffect(
-    //     () => {
-    //         document.addEventListener('keydown', handleKey)
-    //         document.addEventListener('mousedown', handleClick)
-    //         return () => {
-    //             document.removeEventListener('keydown', handleKey)
-    //             document.removeEventListener('mousedown', handleClick)
-    //         }
-    //     }, []
-    // )
+    useEffect(
+        () => {
+            document.addEventListener('keydown', handleKey)
+            document.addEventListener('mousedown', handleClick)
+            return () => {
+                document.removeEventListener('keydown', handleKey)
+                document.removeEventListener('mousedown', handleClick)
+            }
+        }, []
+    )
 
     return (
         <div className={showHideClassName}>
@@ -38,6 +38,7 @@ function Modal(props) {
                     Close
                 </button>
             </section>
+            
         </div>
     );
 }
