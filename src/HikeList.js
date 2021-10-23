@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import HikeCardAdmin from "./HikeCardAdmin";
 import Modal from "./Modal";
 import EditField from "./EditField";
-import CreationModal from "./CreationModal";
 
 function HikeList() {
     const [hikeData, setHikeData] = useState([])
@@ -118,9 +117,6 @@ function HikeList() {
     return;
     }
 
-    const closeCreation = () =>{
-        setCreationModalVisibility(false);
-    }
 
     const createHike = async (newHike) => {
         const url = envUrl();
@@ -133,9 +129,16 @@ function HikeList() {
           const response = await fetch(url, postingHike)
     }
 
+const sendCreate = async () =>{
+    await createHike(editHike)
+    closeModal()
+    closeEditing()
+    getData()
+}
+
     return (
         <div className="hikeList">
-            <button class="createButton" onClick={toggleCreationModalVisibility}>Create a new hike</button>
+            <button className="createButton" onClick={toggleCreationModalVisibility}>Create a new hike</button>
            
             {
                 hikeData.map(hike => {
@@ -150,7 +153,7 @@ function HikeList() {
                     )
                 })
             }
-            <Modal create={createHike} show={creationModalVisibility} closeCreation={closeCreation} handleClose={closeModal} >
+            <Modal create={createHike} show={creationModalVisibility} closeCreation={closeEditing} handleClose={closeModal} >
           {/* make fields clickable and implement the post function to create a hike */}
                 
             <div className="editSection">
@@ -200,6 +203,9 @@ function HikeList() {
                             onChange={e => setEditHike({...editHike, location: e.target.value})}
                             />
                 </div>
+                <button type = "button" onClick={() => { 
+                            setEditing(true)
+                            sendCreate() }}>Create</button>
                 </ Modal>
 
             <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
