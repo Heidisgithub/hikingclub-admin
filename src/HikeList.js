@@ -6,6 +6,7 @@ import EditField from "./EditField";
 function HikeList() {
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
+    const [creationModalVisibility, setCreationModalVisibility] = useState(false);
     const [selectedHike, setSelectedHike] = useState({});
     const [isEditing, setEditing] = useState(false);
     const [editHike, setEditHike] = useState({
@@ -22,7 +23,7 @@ function HikeList() {
 
     useEffect(
         () => {
-            if (selectedHike.uuid) {
+            if (selectedHike?.uuid) {
                 const foundHike = findSelectedHike(selectedHike.uuid)
                 setSelectedHike(foundHike)
             } else {
@@ -69,6 +70,7 @@ function HikeList() {
 
     const closeModal = () => {
         setModalVisibility(false)
+        setCreationModalVisibility(false)
     }
 
     const findSelectedHike = (hikeId) => {
@@ -142,20 +144,24 @@ function HikeList() {
 
     const createHike = async (newHike) => {
         const url = envUrl();
-    
+        let jsonResponse
         const postingHike = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newHike)
           };
           const response = await fetch(url, postingHike)
+          if (response.ok) {
+            jsonResponse = await response.json()
+            setEditHike(jsonResponse)
+        }
     }
 
 const sendCreate = async () =>{
     await createHike(editHike)
+    getData()
     closeModal()
     closeEditing()
-    getData()
 }
 
     let modalWindow = <div></div>
@@ -251,6 +257,7 @@ const sendCreate = async () =>{
 
     return (
         <div className="hikeList">
+            <button className="createButton" onClick={toggleCreationModalVisibility}>Create a new hike</button>
             {
                 hikeData.map(hike => {
                     return (
@@ -265,6 +272,62 @@ const sendCreate = async () =>{
                 })
             }
             {modalWindow}
+           
+           <Modal create={createHike} show={creationModalVisibility} closeEditing={closeEditing} handleClose={closeModal} >
+         {/* make fields clickable and implement the post function to create a hike */}
+               
+           <div className="editSection">
+                   <span>Hike Title: </span>
+                        <input 
+                           type="text"
+                           
+                           value={editHike.title}
+                           onChange={e => {
+                               setEditHike({...editHike, title: e.target.value})
+                               }}
+                           />
+               </div>
+               <div>
+                   <span>Hike Image URL: </span>
+                       <input 
+                           type="text"
+                           
+                           value={editHike.imageUrl}
+                           onChange={e => setEditHike({...editHike, imageUrl: e.target.value})}
+                           />
+               </div>
+               <div>
+                   <span>Hike Date: </span>
+                       <input 
+                           type="date"
+                           
+                           value={convertDate(editHike.date)}
+                           onChange={e => setEditHike({...editHike, date: e.target.value})}
+                           />
+               </div>
+               <div>
+                   <span>Hike Description: </span>
+                       <input 
+                           type="text"
+                           
+                           value={editHike.description}
+                           onChange={e => setEditHike({...editHike, description: e.target.value})}
+                           />
+               </div>
+               <div>
+                   <span>Hike Location: </span>
+                       <input 
+                           type="text"
+                           
+                           value={editHike.location}
+                           onChange={e => setEditHike({...editHike, location: e.target.value})}
+                           />
+               </div>
+               <button type = "button" onClick={() => { 
+                           setEditing(true)
+                           sendCreate() }}>Create</button>
+               </ Modal>
+
         </div>
     )
 }
