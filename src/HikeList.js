@@ -112,6 +112,7 @@ function HikeList() {
     const updateEdit = async (hikeId) => {
         await sendPatchUpdate(editHike, hikeId)
         closeEditing()
+        closeModal()
         getData()
     }
 
@@ -168,9 +169,9 @@ const sendCreate = async () =>{
     if (modalVisibility) {
     modalWindow = (
         <Modal show={modalVisibility} closeEditing={closeEditing} handleClose={closeModal}>
-                <img src={selectedHike.imageUrl} alt="hike"></img>
-                <p>Hike UUID: {selectedHike.uuid}</p>
-                {
+                <div className="modalImage"><img src={selectedHike.imageUrl} alt="hike"></img></div>
+                <div><span>Hike UUID: </span> <span>{selectedHike.uuid}</span></div>
+                <div className="modalButtons">{
                     isEditing ? (
                         <>
                         <button onClick={()=>closeEditing()}>Cancel</button>
@@ -184,7 +185,8 @@ const sendCreate = async () =>{
                     )
                 }
                 <button onClick={()=>deleteHike(selectedHike.uuid)}>!!! DELETE HIKE !!!</button>
-                <div className="editSection">
+                </div>
+                <div >
                     <span>Hike Title: </span>
                     <EditField 
                         isEditing={isEditing}
@@ -231,7 +233,7 @@ const sendCreate = async () =>{
                     <EditField 
                         isEditing={isEditing}
                         title={selectedHike.description}>
-                        <input 
+                        <textarea 
                             type="text"
                             placeholder={selectedHike.description}  
                             value={editHike.description}
@@ -257,9 +259,9 @@ const sendCreate = async () =>{
         modalWindow = (
             <Modal create={createHike} show={creationModalVisibility} closeEditing={closeEditing} handleClose={closeModal} >
                
-           <div className="editSection">
+           <div>
                    <span>Hike Title: </span>
-                        <input 
+                   <span className="modalInputField"><input  
                            type="text"
                            
                            value={editHike.title}
@@ -267,50 +269,54 @@ const sendCreate = async () =>{
                                setEditHike({...editHike, title: e.target.value})
                                }}
                            />
+                           </span>
                </div>
                <div>
                    <span>Hike Image URL: </span>
-                       <input 
+                   <span className="modalInputField"> <input 
                            type="text"
                            
                            value={editHike.imageUrl}
                            onChange={e => setEditHike({...editHike, imageUrl: e.target.value})}
                            />
+                           </span>
                </div>
                <div>
                    <span>Hike Date: </span>
-                       <input 
+                   <span className="modalInputField"> <input 
                            type="date"
                            
                            value={convertDate(editHike.date)}
                            onChange={e => setEditHike({...editHike, date: e.target.value})}
                            />
+                           </span>
                </div>
                <div>
                    <span>Hike Description: </span>
-                       <input 
+                   <span className="modalInputField"> 
+                   <textarea 
                            type="text"
                            
                            value={editHike.description}
                            onChange={e => setEditHike({...editHike, description: e.target.value})}
                            />
+                           </span>
                </div>
                <div>
                    <span>Hike Location: </span>
-                       <input 
+                   <span className="modalInputField"> <input 
                            type="text"
                            
                            value={editHike.location}
                            onChange={e => setEditHike({...editHike, location: e.target.value})}
                            />
+                           </span>
                </div>
                <button type = "button" onClick={() => { 
                            setEditing(true)
                            sendCreate() }}>Create</button>
                </ Modal>
         )
-        console.log("modalWindow")
-        console.log(modalWindow)
     }
 
     return (
@@ -319,7 +325,7 @@ const sendCreate = async () =>{
             {
                 hikeData.map(hike => {
                     return (
-                        <div key={hike.uuid} onClick={()=>setModalVisibility(true)}>
+                        <div key={hike.uuid} onClick={()=>{setModalVisibility(true); selectHike(hike.uuid)}}>
                             <HikeCardAdmin 
                                 title={hike.title}
                                 uuid={hike.uuid}

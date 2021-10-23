@@ -6,7 +6,7 @@ function EditField(props) {
         <>
         {
             props.isEditing ? (
-                <span>{props.children}</span>
+                <span className="modalInputField">{props.children}</span>
             ) : (
                 <span>{props.title}</span>
             )
