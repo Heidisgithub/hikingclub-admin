@@ -130,6 +130,34 @@ function HikeList() {
         closeEditing()
     }
 
+    const toggleCreationModalVisibility = ()=>{
+        if(!creationModalVisibility){
+        setCreationModalVisibility(true)
+        return;
+    }
+    setCreationModalVisibility(false)
+    return;
+    }
+
+
+    const createHike = async (newHike) => {
+        const url = envUrl();
+    
+        const postingHike = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(newHike)
+          };
+          const response = await fetch(url, postingHike)
+    }
+
+const sendCreate = async () =>{
+    await createHike(editHike)
+    closeModal()
+    closeEditing()
+    getData()
+}
+
     let modalWindow = <div></div>
     if (selectedHike) {
     modalWindow = (
