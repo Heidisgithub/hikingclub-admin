@@ -33,10 +33,10 @@ function App() {
           </NavLink >
 
           <NavLink
-          to="/hikers"
+          to="/registrations"
           activeClassName="selected"
           >
-            Hikers
+            Registrations
           </NavLink >
         </nav>
       </header>

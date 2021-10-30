@@ -53,13 +53,13 @@ img {
     position: absolute;
 }
 
-.hikeList {
+.hikeList, .registrationsList {
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
 }
 
-.hikeCardAdmin {
+.hikeCardAdmin, .registrationCardAdmin {
     border: 1px solid black;
     margin: 0.5rem auto;
     padding: 0.5rem;
@@ -74,12 +74,19 @@ img {
     width: 33%;
 }
 
+.registrationCardAdmin > * {
+    width: 25%;
+}
+
 @media screen and (max-width: 1024px) {
-    .hikeCardAdmin {
+    .hikeCardAdmin, .registrationCardAdmin {
         width: 100%;
         flex-direction: column;
     }
     .hikeCardAdmin>* {
+        width: 100%;
+    }
+    .registrationCardAdmin > * {
         width: 100%;
     }
     .hikeCardAdmin img {
@@ -87,7 +94,7 @@ img {
     }
 }
 
-.hikeCardAdmin:hover {
+.hikeCardAdmin:hover, .registrationCardAdmin:hover {
     cursor: pointer;
     background-color: white;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
