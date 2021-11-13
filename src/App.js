@@ -10,7 +10,7 @@ function App() {
 
   const[loggedIn, setLoggedIn] = useState(false)
 
-  async function login(email, password) {
+  const login = async (email, password) => {
     console.log(email)
     console.log(password)
   
@@ -32,9 +32,10 @@ function App() {
     }
   }
 
-  
+console.log("Hey it's loading")
 
 useEffect(() => {
+  
   if(localStorage.getItem('sessionId')){
     setLoggedIn(true)
   }
@@ -48,6 +49,8 @@ useEffect(() => {
       return 'https://wbshikingclub.herokuapp.com/'
     }
   }
+
+  console.log("Hey it's loading after the envUrl")
 
   const logOut = () => {
     localStorage.clear(); setLoggedIn(false)
