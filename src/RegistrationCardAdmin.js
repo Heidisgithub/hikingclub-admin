@@ -9,6 +9,7 @@ function RegistrationCardAdmin(props) {
             <p>HikeID: {props.hikeId}</p>
             <p>Hike Title: {props.hikeTitle}</p>
             <p>Added on: {new Date(props.dateAdded).toLocaleDateString("fr-CA")}</p>
+            {props.children}
         </div>
     )
 }
