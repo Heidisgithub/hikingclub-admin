@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RegistrationCardAdmin from "./RegistrationCardAdmin";
 
-function Registrations() {
+function Registrations(props) {
     const sessionId = localStorage.getItem("sessionId")
     const [registrations, setRegistrations] = useState([])
     const [hikeData, setHikeData] = useState([])
@@ -30,10 +30,13 @@ function Registrations() {
                     id: registration.id
                 }))
                 setRegistrations(newRegistrations)
+            } else {
+                props.logOut()
             }
         } catch (error) {
             console.log(error);
             jsonResponse.error = error.message
+            props.logOut()
         }
         return jsonResponse
     }
