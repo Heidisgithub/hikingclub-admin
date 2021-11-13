@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/hikingclub-admin/static/css/main.e2eff186.chunk.css",
-    "main.js": "/hikingclub-admin/static/js/main.3ada04dd.chunk.js",
-    "main.js.map": "/hikingclub-admin/static/js/main.3ada04dd.chunk.js.map",
+    "main.css": "/hikingclub-admin/static/css/main.45459f33.chunk.css",
+    "main.js": "/hikingclub-admin/static/js/main.06d5db46.chunk.js",
+    "main.js.map": "/hikingclub-admin/static/js/main.06d5db46.chunk.js.map",
     "runtime-main.js": "/hikingclub-admin/static/js/runtime-main.928b077f.js",
     "runtime-main.js.map": "/hikingclub-admin/static/js/runtime-main.928b077f.js.map",
-    "static/js/2.d1fbd9e9.chunk.js": "/hikingclub-admin/static/js/2.d1fbd9e9.chunk.js",
-    "static/js/2.d1fbd9e9.chunk.js.map": "/hikingclub-admin/static/js/2.d1fbd9e9.chunk.js.map",
+    "static/js/2.7bd87ea9.chunk.js": "/hikingclub-admin/static/js/2.7bd87ea9.chunk.js",
+    "static/js/2.7bd87ea9.chunk.js.map": "/hikingclub-admin/static/js/2.7bd87ea9.chunk.js.map",
     "index.html": "/hikingclub-admin/index.html",
-    "static/css/main.e2eff186.chunk.css.map": "/hikingclub-admin/static/css/main.e2eff186.chunk.css.map",
-    "static/js/2.d1fbd9e9.chunk.js.LICENSE.txt": "/hikingclub-admin/static/js/2.d1fbd9e9.chunk.js.LICENSE.txt"
+    "static/css/main.45459f33.chunk.css.map": "/hikingclub-admin/static/css/main.45459f33.chunk.css.map",
+    "static/js/2.7bd87ea9.chunk.js.LICENSE.txt": "/hikingclub-admin/static/js/2.7bd87ea9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.928b077f.js",
-    "static/js/2.d1fbd9e9.chunk.js",
-    "static/css/main.e2eff186.chunk.css",
-    "static/js/main.3ada04dd.chunk.js"
+    "static/js/2.7bd87ea9.chunk.js",
+    "static/css/main.45459f33.chunk.css",
+    "static/js/main.06d5db46.chunk.js"
   ]
 }
