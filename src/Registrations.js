@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RegistrationCardAdmin from "./RegistrationCardAdmin";
 
-function Registrations() {
+function Registrations(props) {
     const [registrations, setRegistrations] = useState([])
     const envUrl = () => {
         if (process.env.NODE_ENV === 'development') {
@@ -10,7 +10,7 @@ function Registrations() {
             return 'https://wbshikingclub.herokuapp.com/api/hikes/private/registrations'
         }
     }
-    const getRegistrationsData = async () => {
+    const getRegistrationsData = async() => {
         const sessionId = localStorage.getItem("sessionId")
         let jsonResponse = { error: "unknown" };
         const url = envUrl() + `?session=${sessionId}`;
@@ -28,10 +28,13 @@ function Registrations() {
                     id: registration.id
                 }))
                 setRegistrations(newRegistrations)
+            } else {
+                props.logOut()
             }
         } catch (error) {
             console.log(error);
             jsonResponse.error = error.message
+            props.logOut()
         }
         return jsonResponse
     }
@@ -39,38 +42,40 @@ function Registrations() {
     useEffect(
         () => {
             getRegistrationsData()
-        }
-        , [])
+        }, [])
 
-    return (
-        <div>
-            <label htmlFor="hikesDropdown">See registrations for hike:</label>
-            <select id="hikesDropdown" name="hikes">
-                <option defaultValue>Choose a hike</option>
-                {
-                    registrations.map(registration => (
-                        <option key={"option"+registration.id} value={registration.hikeId}>{registration.hikeTitle} ({registration.hikeId})</option>
-                    ))
-                }
-            </select>
-            <div className="registrationsList">
-                {
-                    registrations.map(registration => (
-                        <div key={registration.id} >
-                            <RegistrationCardAdmin
-                                email={registration.email}
-                                name={registration.name}
-                                message={registration.message}
-                                hikeId={registration.hikeId}
-                                hikeTitle={registration.hikeTitle}
-                                dateAdded={registration.dateAdded}
-                            />
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    )
+    return ( <
+            div >
+            <
+            label htmlFor = "hikesDropdown" > See registrations
+            for hike: < /label> <
+            select id = "hikesDropdown"
+            name = "hikes" >
+            <
+            option defaultValue > Choose a hike < /option> {
+            registrations.map(registration => ( <
+                option key = { "option" + registration.id }
+                value = { registration.hikeId } > { registration.hikeTitle }({ registration.hikeId }) < /option>
+            ))
+        } <
+        /select> <
+    div className = "registrationsList" > {
+            registrations.map(registration => ( <
+                div key = { registration.id } >
+                <
+                RegistrationCardAdmin email = { registration.email }
+                name = { registration.name }
+                message = { registration.message }
+                hikeId = { registration.hikeId }
+                hikeTitle = { registration.hikeTitle }
+                dateAdded = { registration.dateAdded }
+                /> < /
+                div >
+            ))
+        } <
+        /div> < /
+    div >
+)
 }
 
 export default Registrations;
