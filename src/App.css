@@ -227,3 +227,15 @@ section.modal-main div textarea {
 ::-webkit-scrollbar-thumb {
     background: #000;
 }
+
+.deleteRegistration {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    max-width: 60vw;
+}
+
+.deleteRegistration:hover {
+    cursor: pointer;
+    background-color: #e26b6b;
+    font-weight: bold;
+}
