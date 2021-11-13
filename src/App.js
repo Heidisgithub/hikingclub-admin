@@ -1,8 +1,7 @@
 import './App.css';
 import { NavLink } from "react-router-dom";
 import EntityList from "./EntityList";
-import {useState} from "react";
-import { useEffect } from 'react/cjs/react.development';
+import {useState, useEffect} from "react";
 
 
 
@@ -37,17 +36,21 @@ console.log("Hey it's loading")
 useEffect(() => {
   
   if(localStorage.getItem('sessionId')){
+    console.log("Hey this one is inside the useEffect")
     setLoggedIn(true)
   }
   
 }, [])
 
+console.log("Hey it's loading after useEffect")
+
   const envUrl = () => {
+    console.log("Hey this is inside the envUrl")
     if (process.env.NODE_ENV === 'development') {
       return process.env.REACT_APP_DEV_URL_HOMEPAGE
     } else {
       return 'https://wbshikingclub.herokuapp.com/'
-    }
+    } 
   }
 
   console.log("Hey it's loading after the envUrl")
