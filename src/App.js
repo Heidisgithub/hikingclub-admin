@@ -8,6 +8,7 @@ import {useState, useEffect} from "react";
 function App() {
 
   const[loggedIn, setLoggedIn] = useState(false)
+  const[errorState, setErrorState] = useState('')
 
   const login = async (email, password) => {
     console.log(email)
@@ -23,9 +24,15 @@ function App() {
     const response = await fetch(url, myInit)
     if (response.ok) {
       jsonResponse = await response.json()
+      if(jsonResponse.userRole === "admin"){
       localStorage.setItem("sessionId", jsonResponse.sessionId)
       setLoggedIn(true)
+      setErrorState('')
+    } else{
+      setErrorState('unauthorized User')
+    }
     } else {
+      setErrorState('login unsuccessful. Username or password was wrong.')
       console.log("login unsuccessful")
       logOut();
     }
@@ -90,7 +97,7 @@ console.log("Hey it's loading after useEffect")
         </nav>
       </header>
 
-      <EntityList login={login} loggedIn={loggedIn} logOut={logOut} />
+      <EntityList login={login} loggedIn={loggedIn} logOut={logOut} errorState={errorState} />
     </div>
   );
 }

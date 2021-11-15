@@ -12,13 +12,13 @@ function EntityList(props) {
         <div>
         <Switch>
         <Route exact path="/login">
-        {props.loggedIn ? <Redirect to="/hikes" /> :  <Login login={props.login} />}  
+        {props.loggedIn ? <Redirect to="/hikes" /> :  <Login login={props.login} errorState={props.errorState} />}  
         </Route>  
         <Route exact path="/">
         {props.loggedIn ? <Redirect to="/hikes" /> :  <Redirect to="/login" />}  
         </Route>  
                 <Route path="/hikes">
-                {props.loggedIn ? <HikeList /> : <Redirect to="/login" />}
+                {props.loggedIn ? <HikeList logOut={props.logOut} loggedIn={props.loggedIn} /> : <Redirect to="/login" />}
                 </Route>
 
                 <Route path="/news">

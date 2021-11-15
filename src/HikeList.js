@@ -3,7 +3,7 @@ import HikeCardAdmin from "./HikeCardAdmin";
 import Modal from "./Modal";
 import EditField from "./EditField";
 
-function HikeList() {
+function HikeList(props) {
     const sessionId = localStorage.getItem("sessionId")
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
@@ -58,9 +58,13 @@ function HikeList() {
             }))
             setHikeData(newHikes)
           }
+          else{
+            props.logOut()
+          }
         } catch (error) {
           console.log(error);
           jsonResponse.error = error.message
+          props.logOut()
         }
         return jsonResponse
     }
