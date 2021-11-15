@@ -14,7 +14,7 @@ function App() {
     console.log(password)
   
     let jsonResponse = { error: "unknown" };
-    const url = envUrl()+`login`
+    const url = envUrl()+`/login`
     const myInit = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},

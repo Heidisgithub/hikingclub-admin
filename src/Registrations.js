@@ -6,16 +6,18 @@ function Registrations(props) {
     const [registrations, setRegistrations] = useState([])
     const [hikeData, setHikeData] = useState([])
     const [selectedHikeValue, setSelectedHikeValue] = useState("allHikes")
+
     const envUrl = () => {
         if (process.env.NODE_ENV === 'development') {
-            return `${process.env.REACT_APP_DEV_URL_HOMEPAGE}/api/hikes/private/registrations`
+            return process.env.REACT_APP_DEV_DB_URL_HIKES
         } else {
-            return 'https://wbshikingclub.herokuapp.com/api/hikes/private/registrations'
+            return 'https://wbshikingclub.herokuapp.com/api/hikes'
         }
     }
+
     const getRegistrationsData = async () => {
         let jsonResponse = { error: "unknown" };
-        const url = envUrl() + `?session=${sessionId}`;
+        const url = envUrl() + `/registrations?session=${sessionId}`;
         try {
             const response = await fetch(url, { cache: 'no-cache' })
             if (response.ok) {
@@ -43,12 +45,7 @@ function Registrations(props) {
 
     const getHikeData = async () => {
         let jsonResponse = { error: "unknown" };
-        let url
-        if (process.env.NODE_ENV === 'development') {
-            url = process.env.REACT_APP_DEV_DB_URL_HIKES
-        } else {
-            url = 'https://wbshikingclub.herokuapp.com/api/hikes'
-        }
+        const url = envUrl() + `?session=${sessionId}`;
         try {
             const response = await fetch(url, { cache: 'no-cache' })
             if (response.ok) {
@@ -82,7 +79,7 @@ function Registrations(props) {
 
     const getRegistrationsByHikeId = async (hikeId) => {
         let jsonResponse = { error: "unknown" };
-        const url = `${process.env.REACT_APP_DEV_URL_HOMEPAGE}/api/hikes/${hikeId}`
+        const url = envUrl() + `/${hikeId}?session=${sessionId}`;
         try {
             const response = await fetch(url, { cache: 'no-cache' })
             if (response.ok) {
@@ -118,7 +115,7 @@ function Registrations(props) {
 
     const deleteRegistration = async (id) => {
         const baseUrl = envUrl();
-        const url = `${baseUrl}/${id}?session=${sessionId}`
+        const url = `${baseUrl}/registrations/${id}?session=${sessionId}`
         const myInit = {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }

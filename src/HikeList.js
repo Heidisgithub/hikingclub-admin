@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import EditField from "./EditField";
 
 function HikeList() {
+    const sessionId = localStorage.getItem("sessionId")
     const [hikeData, setHikeData] = useState([])
     const [modalVisibility, setModalVisibility] = useState(false);
     const [creationModalVisibility, setCreationModalVisibility] = useState(false);
@@ -42,7 +43,7 @@ function HikeList() {
 
     const getData = async () => {
         let jsonResponse = { error: "unknown" };
-        const url = envUrl();
+        const url = envUrl() + `?session=${sessionId}`;
         try {
           const response = await fetch(url, { cache: 'no-cache' })
           if (response.ok) {
@@ -100,7 +101,7 @@ function HikeList() {
 
     const sendPatchUpdate = async (updateBody, hikeId) => {
         const baseUrl = envUrl();
-        const url = `${baseUrl}/${hikeId}`
+        const url = `${baseUrl}/${hikeId}?session=${sessionId}`
         const myInit = {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
@@ -118,7 +119,7 @@ function HikeList() {
 
     const sendDeleteUpdate = async (hikeId) => {
         const baseUrl = envUrl();
-        const url = `${baseUrl}/${hikeId}`
+        const url = `${baseUrl}/${hikeId}?session=${sessionId}`
         const myInit = {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'}
@@ -133,18 +134,8 @@ function HikeList() {
         closeEditing()
     }
 
-    const toggleCreationModalVisibility = ()=>{
-        if(!creationModalVisibility){
-        setCreationModalVisibility(true)
-        return;
-    }
-    setCreationModalVisibility(false)
-    return;
-    }
-
-
     const createHike = async (newHike) => {
-        const url = envUrl();
+        const url = envUrl() + `?session=${sessionId}`;
         let jsonResponse
         const postingHike = {
             method: 'POST',
