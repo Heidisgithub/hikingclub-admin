@@ -20,7 +20,7 @@ if(props.errorState !== ''){
     <div className="Login">
         {errorMessage}
         <input type="text" placeholder="E-Mail" value={email} onChange={(e) => {setEmail(e.target.value)}}  />
-        <input type="text" placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)}}  />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => {setPassword(e.target.value)}}  />
         <button onClick={ () => { props.login(email, password) } }>Log in</button>
     </div>
   );
