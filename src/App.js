@@ -56,7 +56,7 @@ console.log("Hey it's loading after useEffect")
     if (process.env.NODE_ENV === 'development') {
       return process.env.REACT_APP_DEV_URL_HOMEPAGE
     } else {
-      return 'https://wbshikingclub.herokuapp.com/'
+      return 'https://wbshikingclub.herokuapp.com'
     } 
   }
 
